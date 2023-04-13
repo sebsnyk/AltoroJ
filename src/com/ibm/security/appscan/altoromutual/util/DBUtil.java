@@ -504,18 +504,24 @@ public class DBUtil {
 			Connection connection = getConnection();
 			Statement statement = connection.createStatement();
 			statement.execute("UPDATE PEOPLE SET PASSWORD = '"+ password +"' WHERE USER_ID = '"+username+"'");
+			return null;
+		} catch (SQLException e){
+			return e.toString();
+		}
+	}
 
-			Statement statement2 = connection.createStatement();
-			statement2.execute("INSERT INTO AUDIT_TRAIL (event, user) VALUES ('password_change', '"+username+"')");
+	public static String updateAuditTrail(String username) {
+		try {
+			Connection connection = getConnection();
+			Statement statement = connection.createStatement();
+			statement.execute("INSERT INTO AUDIT_TRAIL (event, user) VALUES ('password_change', '"+username+"')");
 
 			return null;
 		} catch (SQLException e){
 			return e.toString();
-			
 		}
 	}
 
-	
 	public static long storeFeedback(String name, String email, String subject, String comments) {
 		try{ 
 			Connection connection = getConnection();
