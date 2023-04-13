@@ -504,6 +504,10 @@ public class DBUtil {
 			Connection connection = getConnection();
 			Statement statement = connection.createStatement();
 			statement.execute("UPDATE PEOPLE SET PASSWORD = '"+ password +"' WHERE USER_ID = '"+username+"'");
+
+			Statement statement2 = connection.createStatement();
+			statement2.execute("INSERT INTO AUDIT_TRAIL (event, user) VALUES ('password_change', '"+username+"')");
+
 			return null;
 		} catch (SQLException e){
 			return e.toString();
