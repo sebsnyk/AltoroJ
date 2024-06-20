@@ -57,7 +57,8 @@ public class AdminAPI extends AltoroAPI{
 		
 		if (error != null)
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("{\"error\":\""+error+"\"}").build();
-		
+
+		DBUtil.updateAuditTrail(username);
 
 		return Response.status(Response.Status.OK).entity("{\"success\":\"Requested operation has completed successfully.\"}").type(MediaType.APPLICATION_JSON_TYPE).build();
 	}
