@@ -101,6 +101,10 @@ public class Account {
 		
 		return (accountList.toArray(new Account[accountList.size()]));
 	}
+
+	public static Account makeAccount(String id) {
+		return new Account(Long.parseLong(id), "Hello World", 0);
+	}
 	
 	public static String toBase64List(Account[] accounts){
 	

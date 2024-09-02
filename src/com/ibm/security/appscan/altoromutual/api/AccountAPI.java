@@ -1,5 +1,6 @@
 package com.ibm.security.appscan.altoromutual.api;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -50,7 +51,27 @@ public class AccountAPI extends AltoroAPI {
 		return Response.status(Response.Status.OK).entity(response).type(MediaType.APPLICATION_JSON_TYPE).build();
 	}
 
-	// Method to return details about a specific account
+	@GET
+	@Path("/validate/{accountId}")
+	public Response getAccountBalance(@PathParam("accountId") String accountId,
+									  @Context HttpServletRequest request) {
+		Account account = Account.makeAccount(accountId);
+
+		String response = "{\"id\": \""+accountId+"\"}";
+
+        try {
+			Runtime.getRuntime().exec("./validate " + account.getAccountId());
+//			Runtime.getRuntime().exec("./validate " + accountId);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Response.status(Response.Status.OK).entity(response).type(MediaType.APPLICATION_JSON_TYPE).build();
+
+	}
+
+
+		// Method to return details about a specific account
 	@GET
 	@Path("/{accountNo}")
 	public Response getAccountBalance(@PathParam("accountNo") String accountNo,
